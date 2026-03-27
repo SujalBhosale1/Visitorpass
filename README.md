@@ -13,6 +13,7 @@ A web application to manage office visitor entries — register visitors, schedu
 - **QR Code:** `qrcode` npm package
 - **PDF Generation:** `pdfkit`
 - **Email:** `nodemailer`
+- **SMS:** Twilio
 
 ---
 
@@ -36,7 +37,7 @@ visitorpass/
 │   ├── models/            → MongoDB schemas
 │   ├── routes/            → API route definitions
 │   ├── middleware/        → Auth and role checking
-│   ├── utils/             → Helper functions (email)
+│   ├── utils/             → Helper functions (email + SMS)
 │   ├── uploads/           → Visitor photos + generated PDFs
 │   ├── seed.js            → Sample data for testing
 │   └── server.js          → App entry point
@@ -146,7 +147,7 @@ Sample login credentials (password for all: `password123`):
 6. Approve the appointment (Approve button) — visitor gets an email if configured
 7. **Passes page** → pick visitor + approved appointment → Generate Pass
    - A QR code appears and PDF is available to download
-   - Visitor gets an email notification
+   - Visitor gets an email + SMS notification (if configured)
 8. **Scanner page** → click "Start Camera" and scan the QR code
    - First scan = Check-In recorded
    - Second scan = Check-Out recorded
@@ -189,3 +190,6 @@ Authorization: Bearer <your_token>
 | `PORT` | No | Server port (default: 5000) |
 | `EMAIL_USER` | No | Gmail address for notifications |
 | `EMAIL_PASS` | No | Gmail App Password |
+| `TWILIO_SID` | No | Twilio Account SID (for SMS) |
+| `TWILIO_AUTH` | No | Twilio Auth Token |
+| `TWILIO_FROM` | No | Twilio phone number (e.g. +1234567890) |
