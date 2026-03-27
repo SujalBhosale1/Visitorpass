@@ -80,9 +80,14 @@ MONGO_URI=your_mongodb_atlas_connection_string
 JWT_SECRET=any_random_secret_string
 PORT=5000
 
-# Optional - only needed if you want email notifications
+# Optional - email notifications via Gmail
 EMAIL_USER=your_gmail_address@gmail.com
 EMAIL_PASS=your_gmail_app_password
+
+# Optional - SMS notifications via Twilio
+TWILIO_SID=your_twilio_account_sid
+TWILIO_AUTH=your_twilio_auth_token
+TWILIO_FROM=your_twilio_phone_number
 ```
 
 > **Note on EMAIL_PASS:** Use a Gmail App Password (not your login password).

@@ -1,36 +1,22 @@
 const jwt = require("jsonwebtoken");
 
-// This middleware runs before any protected route
-// Its job is to check if the request has a valid JWT token
 module.exports = (req, res, next) => {
-
-  // The token comes in the Authorization header
-  // It will look like: "Bearer eyJhbGciOiJIUzI1NiIsInR..."
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ message: "Access denied. Please login first." });
+    return res.status(401).json({ message: "No token, please login first" });
   }
 
-  // Strip the "Bearer " prefix to get just the token string
-  // If someone sends it without "Bearer ", we handle that too
+  // handle both "Bearer <token>" and plain token
   const token = authHeader.startsWith("Bearer ")
     ? authHeader.slice(7)
     : authHeader;
 
   try {
-    // jwt.verify checks if the token is valid and not expired
-    // It decodes the payload we stored during login (id and role)
-    const decodedPayload = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Attach the decoded user info to the request so the next function can use it
-    req.user = decodedPayload;
-
-    // Move on to the actual route handler
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
-
-  } catch (err) {
-    // This happens if the token is expired or tampered with
-    res.status(401).json({ message: "Session expired or invalid. Please login again." });
+  } catch {
+    res.status(401).json({ message: "Token invalid or expired, please login again" });
   }
 };
